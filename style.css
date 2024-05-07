@@ -1,0 +1,30 @@
+* {
+    margin: 5px;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #bada55;
+    font-family: 'Arial', sans-serif;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10%;
+}
+
+#anzeige {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

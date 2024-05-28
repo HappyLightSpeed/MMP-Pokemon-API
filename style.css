@@ -29,12 +29,14 @@ body {
 
 /* Suchfeld */
 input[type="text"] {
-    width: 100%;
+    width: 85%;
+    height: 60px;
     padding: 8px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.5em;
 }
 
 /* Karten */
@@ -48,15 +50,26 @@ input[type="text"] {
     align-items: center;
     padding: 20px 10px;
     max-width: 150px; /* Stellt sicher, dass die Karten nicht breiter als 150px werden */
+    min-height: 250px; /* Einheitliche minimale Höhe für alle Karten */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Verteilung der Elemente in der Karte */
 }
 
 .ui.card:hover {
     transform: translateY(-8px);
 }
 
+.ui.card .image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .ui.card .image img {
-    width: 100%; /* Stellt sicher, dass die Bilder die gesamte Breite des Containers einnehmen */
-    height: auto; /* Erhält das Seitenverhältnis der Bilder */
+    width: auto; /* Stellt sicher, dass die Bilder das Seitenverhältnis beibehalten */
+    height: 100px; /* Einheitliche Höhe für alle Bilder */
 }
 
 .ui.card .header {

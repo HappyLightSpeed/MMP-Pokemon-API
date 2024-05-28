@@ -3,13 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
     <link rel="stylesheet" href="style.css">
     <title>Schnapp' sie dir alle!</title>
 </head>
 <body>
-    <h1>Select your Character</h1>
-    <input type="text" id="suche" placeholder="Suchbegriff eingeben...">
-    <div id="anzeige"></div>
+    <header>
+        <h1>Pokemon API</h1>
+    </header>
+    <main>
+        <div id="header-container" class="ui inverted segment">
+            <div class="ui inverted secondary menu">
+               <h1 id="header-text">Kanto Pokemon</h1>
+            </div>
+        </div>
+        <input type="text" id="search" placeholder="Pokémon suchen...">
+        
+        <!-- JavaScript generiert unter "app" die Cards der Pokémon -->
+        <div id="app"></div> 
+        
+
+    </main>
+    <footer>
+        <p>© 2024 by HappyLight, this is a schoolproject</p>
+        <p>PokeAPI is created by Paul Hallett and other PokéAPI contributors around the world. Pokémon and Pokémon character names are trademarks of Nintendo.</p>
+    </footer>
     <script src="script.js" type="module"></script>
 </body>
 </html>

@@ -1,63 +1,84 @@
-const searchBocks = document.querySelector('#search');
-const anzeige = document.querySelector('#anzeige');
-let anzahlPokemon = 1025;
-// console.log(suche, anzeige);
+document.addEventListener('DOMContentLoaded', () => {
+    const app = document.getElementById('app');
+    const search = document.getElementById('search');
 
-// https://www.pokeapi.com/api/v2/
-async function suchePokemon(searchInput) {
-    console.log(searchInput);
-    let url = 'https://pokeapi.co/api/v2/pokemon?limit=${anzahlPokemon}&offset=0'
-    let creatures = await fetchData(url);
-    let filteredPokemon = creatures.results.filter(wantedPokemon => wantedPokemon.name.includes(searchInput));
-    console.log(filteredPokemon);
-    anzeige.innerHTML = '';
-    filteredPokemon.forEach(pokemon => {
-        let card = document.createElement('div');
-        card.className = 'pokemonCard';
-        card.innerHTML = `<h2>${pokemon.name}</h2>`;
-        anzeige.appendChild(card);
-    })
-}
+    const typeColors = {
+        normal: '#A8A77A',
+        fire: '#EE8130',
+        water: '#6390F0',
+        electric: '#F7D02C',
+        grass: '#7AC74C',
+        ice: '#96D9D6',
+        fighting: '#C22E28',
+        poison: '#A33EA1',
+        ground: '#E2BF65',
+        flying: '#A98FF3',
+        psychic: '#F95587',
+        bug: '#A6B91A',
+        rock: '#B6A136',
+        ghost: '#735797',
+        dragon: '#6F35FC',
+        dark: '#705746',
+        steel: '#B7B7CE',
+        fairy: '#D685AD'
+    };
 
-async function suchePokemon(url) { // async = asynchron, damit der Browser nicht blockiert wird
-    try {
-        // wenn Daten geladen werden können
-        let data = await fetch(url); //warten bis Daten da sind, fetch ist eine Promise
-        return await data.json(); //warten bis Daten in JSON umgewandelt werden
-    } catch(e) {
-        // wenn ein Fehler auftaucht
-        console.error(e);
-    }
-}
-let pokemonDaten = await holeDaten('https://pokeapi.co/api/v2/pokemon/');
-console.log(pokemonDaten);
+    const fetchPokemon = async () => {
+        try {
+            const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+            const data = await response.json();
+            const pokemonPromises = data.results.map(pokemon => fetch(pokemon.url).then(res => res.json()));
+            const pokemonList = await Promise.all(pokemonPromises);
+            pokemonList.sort((a, b) => a.id - b.id);
+            displayPokemon(pokemonList);
+        } catch (error) {
+            console.error('Error fetching Pokémon:', error);
+        }
+    };
 
-/*
-function datenDarstellen(pokemon) {
-    anzeige.innerHTML = ''; // leert die Anzeige, damit nicht immer wieder Pokémon angehängt werden
-    pokemon.forEach(pokemon => {
-        let div = document.createElement('div');
-        let image = document.createElement('img');
-        image.src = cocktail.strDrinkThumb; // cocktail. ist der absolute Pfad
-        let title = document.createElement('h2');
-        title.innerText = cocktail.strDrink;
-        div.appendChild(title);
-        div.appendChild(image); // div wird zusammengebaut (image unter title)
-        anzeige.appendChild(div); // div wird angezeigt
-    })
-}
-datenDarstellen(pokemonDaten.pokemon);
-*/
+    const displayPokemon = (pokemonList) => {
+        app.innerHTML = pokemonList.map(pokemon => createPokemonCard(pokemon)).join('');
+    };
+
+    const createPokemonCard = (pokemon) => {
+        return `
+            <div class="ui card" data-name="${pokemon.name.toLowerCase()}">
+                <div class="image">
+                    <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
+                </div>
+                <div class="content" style="text-align: center;">
+                    <a class="header" style="display: block; margin-bottom: 10px;">${capitalizeFirstLetter(pokemon.name)}</a>
+                    <div class="meta" style="display: flex; justify-content: center;">
+                        ${pokemon.types.map(typeInfo => createTypeBadge(typeInfo.type.name)).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+    };
+
+    const createTypeBadge = (type) => {
+        const color = typeColors[type] || '#777';
+        return `<span class="type-badge" style="background-color: ${color}; border-radius: 12px; padding: 5px 10px; color: white; margin: 2px; width: 80px;">${capitalizeFirstLetter(type)}</span>`;
+    };
+
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
+    search.addEventListener('input', (event) => {
+        const searchTerm = event.target.value.toLowerCase();
+        const cards = document.querySelectorAll('.ui.card');
+        cards.forEach(card => {
+            const pokemonName = card.querySelector('.header').textContent.toLowerCase();
+            if (pokemonName.includes(searchTerm)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+
+    fetchPokemon();
+});
 
 
-/*
-// Suchleiste
-suche.addEventListener('input', async function(){
-    let ergebnis = suche.value;
-    let searchURL = 'https://pokeapi.co/api/v2/pokemon/' + ergebnis; // URL wird zusammengebaut mit dem aus dem Suchfeld, was eingegeben wird
-    // console.log(ergebnis);
-    let pokemon_aus_suche = await holeDaten(searchURL);
-    datenDarstellen(pokemon_aus_suche.pokemon);
-    console.log(ergebnis, pokemon_aus_suche);
-})
-*/

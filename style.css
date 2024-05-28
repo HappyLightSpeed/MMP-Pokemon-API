@@ -6,25 +6,110 @@
 
 body {
     background-color: #bada55;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Arial', sans-serif';
 }
 
-img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10%;
-}
-
-#anzeige {
+#app {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 12px;
+    max-width: calc(150px * 6 + 12px * 5); /* Maximal 6 Spalten mit 12px Lücken */
+    margin: 0 auto; /* Zentriert den Inhalt */
 }
 
+/* Suchfeld */
 input[type="text"] {
     width: 100%;
     padding: 8px;
-    margin: 8px 0;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Karten */
+.ui.card {
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 10px;
+}
+
+.ui.card:hover {
+    transform: translateY(-8px);
+}
+
+.ui.card .image img {
+    width: 100%; /* Stellt sicher, dass die Bilder die gesamte Breite des Containers einnehmen */
+    height: auto; /* Erhält das Seitenverhältnis der Bilder */;
+}
+
+.ui.card .header {
+    text-align: center;
+    font-size: 1.2em;
+    margin: 10px 0;
+    color: #333;
+}
+
+.ui.card .meta {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.type-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    width: 80px; /* Einheitliche Breite für alle Typ-Badges */
+    margin: 2px;
+    padding: 5px 10px;
+    border-radius: 12px;
+    color: white;
+}
+
+.ui.card .header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.ui.card .meta {
+    display: flex;
+    justify-content: center;
+}
+
+
+@media (max-width: 1024px) {
+    #app {
+        max-width: calc(150px * 5 + 12px * 4); /* Maximal 5 Spalten */
+    }
+}
+
+@media (max-width: 768px) {
+    #app {
+        max-width: calc(150px * 4 + 12px * 3); /* Maximal 4 Spalten */
+    }
+}
+
+@media (max-width: 576px) {
+    #app {
+        max-width: calc(150px * 2 + 12px * 1); /* Maximal 2 Spalten */
+    }
+}
+
+@media (max-width: 400px) {
+    #app {
+        max-width: 100%; /* Eine Spalte */
+    }
+
+    .ui.card {
+        margin: 0 auto;
+    }
 }

@@ -10,6 +10,7 @@ body {
     font-family: 'Arial', sans-serif;
 }
 
+/* JavaScript mostly */
 #app-container {
     display: flex;
     justify-content: center;
@@ -41,13 +42,13 @@ input[type="text"] {
 
 /* Karten */
 .ui.card {
-    background: white;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.2s;
     flex-direction: column;
     align-items: center;
+    margin: 0 auto;
     padding: 20px 10px;
     max-width: 150px; /* Stellt sicher, dass die Karten nicht breiter als 150px werden */
     min-height: 250px; /* Einheitliche minimale Höhe für alle Karten */
@@ -120,8 +121,35 @@ input[type="text"] {
     #app {
         max-width: 100%; /* Eine Spalte */
     }
+}
 
-    .ui.card {
-        margin: 0 auto;
-    }
+/* Footer */
+footer {
+    background-color: #202020;
+    padding: 20px 0 50px 0px;
+    margin: 0 -10px;
+    text-align: center;
+}
+
+footer hr {
+    border: 0;
+    height: 1px;
+    background: white;
+    margin-bottom: 20px;
+}
+
+footer img {
+    display: block;
+    margin: 0 auto 10px;
+}
+
+footer h2 {
+    margin: 10px 0;
+    color: #c2c2c2;
+}
+
+footer p {
+    padding: 5px 50px;
+    margin: 5px 0;
+    color: #c2c2c2;
 }

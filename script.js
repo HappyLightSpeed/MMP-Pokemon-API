@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const app = document.getElementById('app');
     const search = document.getElementById('search');
-    let anzahlPokemon = 151;
+    let limitBreakerButton;
 
     const typeColors = {
         normal: '#A8A77A',
@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
         fairy: '#D685AD'
     };
 
-    const fetchPokemon = async () => {
+    const fetchPokemon = async (limit = 151) => {
         try {
-            const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+            const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`);
             const data = await response.json();
             const pokemonPromises = data.results.map(pokemon => fetch(pokemon.url).then(res => res.json()));
             const pokemonList = await Promise.all(pokemonPromises);
@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         app.innerHTML = pokemonList.map(pokemon => createPokemonCard(pokemon)).join('');
         addHoverEffect();
         addClickEffect();
+        addLimitBreakerButton();
     };
 
     const createPokemonCard = (pokemon) => {
@@ -107,6 +108,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // Add Limit Breaker button and its functionality
+    const addLimitBreakerButton = () => {
+        if (!limitBreakerButton) {
+            limitBreakerButton = document.createElement('button');
+            limitBreakerButton.className = 'limit-breaker';
+            limitBreakerButton.textContent = 'Limit Breaker';
+            limitBreakerButton.addEventListener('click', () => {
+                fetchPokemon(1025); // Fetches all Pokémon without limit
+                limitBreakerButton.style.display = 'none'; // Hide button after clicking
+            });
+            app.insertAdjacentElement('afterend', limitBreakerButton);
+        }
+    };
+
     search.addEventListener('input', (event) => {
         const searchTerm = event.target.value.toLowerCase();
         const cards = document.querySelectorAll('.ui.card');
@@ -118,6 +133,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.style.display = 'none';
             }
         });
+        // Hide Limit Breaker button if search is used
+        if (searchTerm) {
+            if (limitBreakerButton) {
+                limitBreakerButton.style.display = 'none';
+            }
+        } else {
+            if (limitBreakerButton && !limitBreakerButton.hasAttribute('clicked')) {
+                limitBreakerButton.style.display = 'block';
+            }
+        }
     });
 
     fetchPokemon();

@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const app = document.getElementById('app');
     const search = document.getElementById('search');
-    let limitBreakerButton;
+    let limitBreakerButton; 
 
+    // Colors for Pokémon types, used for  type badges and card background
     const typeColors = {
         normal: '#A8A77A',
         fighting: '#C22E28',
@@ -24,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fairy: '#D685AD'
     };
 
+    // Fetch Pokémon data from PokéAPI, create Pokémon cards and display them
     const fetchPokemon = async (limit = 151) => {
         try {
             const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`);
@@ -37,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Display Pokémon cards
     const displayPokemon = (pokemonList) => {
         app.innerHTML = pokemonList.map(pokemon => createPokemonCard(pokemon)).join('');
         addHoverEffect();
@@ -44,9 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
         addLimitBreakerButton();
     };
 
+    // Create Pokémon card with Pokémon name, image, type badges and cry
     const createPokemonCard = (pokemon) => {
-        const typeColor = typeColors[pokemon.types[0].type.name]; // Get the first type of the Pokémon
+        const typeColor = typeColors[pokemon.types[0].type.name]; // Get the first type of the Pokémon, used for card background
         const lighterColor = lightenColor(typeColor, 55); // Lighten the color for the card background, Prozentwert kann angepasst werden (höher, heller)
+        // HTML template for Pokémon card, dann wird jeder Datensatz in ein eigenes div gepackt
+        // data attributes are used for hover effect and cry
         return `
             <div class="ui card" data-name="${pokemon.name.toLowerCase()}" data-cry="https://play.pokemonshowdown.com/audio/cries/${pokemon.name.toLowerCase()}.mp3" style="background-color: ${lighterColor};">
                 <div class="image">
@@ -62,11 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     };
 
+    // Create type badge with type color
     const createTypeBadge = (type) => {
         const color = typeColors[type] || '#777';
         return `<span class="type-badge" style="background-color: ${color}; border-radius: 12px; padding: 5px 10px; color: white; margin: 2px; width: 80px;">${capitalizeFirstLetter(type)}</span>`;
     };
 
+    // Capitalize first letter of a string
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     };
@@ -82,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Extras
-    // Add hover effect to flip Pokémon sprite
+    // Add hover effect to flip Pokémon sprite (in other words, change the image source on hover)
     const addHoverEffect = () => {
         const cards = document.querySelectorAll('.ui.card');
         cards.forEach(card => {
@@ -109,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Add Limit Breaker button and its functionality
+    // Fetches all current Pokémon instead of the first 151 
     const addLimitBreakerButton = () => {
         if (!limitBreakerButton) {
             limitBreakerButton = document.createElement('button');
@@ -122,12 +131,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // basic Search functionality, filter by name
     search.addEventListener('input', (event) => {
-        const searchTerm = event.target.value.toLowerCase();
+        const searchTerm = event.target.value.toLowerCase(); // Get search term and convert to lowercase
         const cards = document.querySelectorAll('.ui.card');
         cards.forEach(card => {
             const pokemonName = card.querySelector('.header').textContent.toLowerCase();
-            if (pokemonName.includes(searchTerm)) {
+            if (pokemonName.includes(searchTerm)) { // If Pokémon name includes search term, display the card
                 card.style.display = '';
             } else {
                 card.style.display = 'none';
@@ -145,5 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Fetch Pokémon data when the page loads
     fetchPokemon();
 });

@@ -105,7 +105,7 @@ input[type="text"] {
     color: white;
 }
 
-/* CSS für den Limit Breaker Button */
+/* Limit Breaker Button */
 .limit-breaker {
     background-color: darkred;
     color: white;
@@ -124,6 +124,32 @@ input[type="text"] {
     border: 1px solid darkred;
 }
 
+/* Footer */
+footer {
+    background-color: #202020;
+    padding: 20px 0 50px 0px;
+    margin: 0;
+    text-align: center;
+}
+
+footer hr {
+    border: 0;
+    height: 1px;
+    background: white;
+    margin-bottom: 20px;
+}
+
+footer h2 {
+    margin: 10px 0;
+    color: #c2c2c2;
+}
+
+footer p {
+    padding: 5px 50px;
+    margin: 5px 0;
+    color: #c2c2c2;
+    font-size: 14px;
+}
 
 /* Responsives Bild im Footer */
 footer img {
@@ -153,31 +179,4 @@ footer img {
     #app {
         max-width: 100%; /* Eine Spalte */
     }
-}
-
-/* Footer */
-footer {
-    background-color: #202020;
-    padding: 20px 0 50px 0px;
-    margin: 0;
-    text-align: center;
-}
-
-footer hr {
-    border: 0;
-    height: 1px;
-    background: white;
-    margin-bottom: 20px;
-}
-
-footer h2 {
-    margin: 10px 0;
-    color: #c2c2c2;
-}
-
-footer p {
-    padding: 5px 50px;
-    margin: 5px 0;
-    color: #c2c2c2;
-    font-size: 14px;
 }
